@@ -1,0 +1,59 @@
+#videoCall {
+    width: 800px;
+    height: 420px;
+    position: relative;
+    border: solid 1px #000;
+    margin: 50px auto;
+    background-color: rgba(0,0,0,0.3);
+    overflow: hidden;
+  }
+  #videoCall .contact-name {
+    position: absolute;
+    top: 0;
+    margin-left: 15px;
+  }
+  #videoCall .remote-stream {
+    width: 100%;
+    height: 100%;
+    background: rgba(3,33,52,0.7);
+    z-index: -1;
+  }
+  #videoCall .local-stream {
+    width: 25%;
+    height: 25%;
+    position: absolute;
+    z-index: 1000;
+    background: #fff;
+    border: solid 1px rgba(0,0,0,0.3);
+    top: 0;
+    right: 0;
+  }
+  #videoCall .controls {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    margin-right: 20px;
+    margin-bottom: 10px;
+  }
+  #videoCall .controls button {
+    border: 0 none;
+    padding: 10px 12px;
+    border-radius: 50%;
+    background-color: #f00;
+  }
+  #videoCall .controls button i {
+    color: #f5f5f5;
+  }
+  .material-icons.md-18 {
+    font-size: 18px;
+  }
+  .material-icons.md-24 {
+    font-size: 24px;
+  }
+  .material-icons.md-36 {
+    font-size: 36px;
+  }
+  .material-icons.md-48 {
+    font-size: 48px;
+  }
+  

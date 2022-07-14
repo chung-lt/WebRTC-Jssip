@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>WebRTC to VOIP Asterisk Calling</title>
+    <link href="<?php $this->h($this->baseUrl('/css/asterisk13.css')); ?>" rel="stylesheet">
+    <link href="<?php $this->h($this->baseUrl('/css/asterisk18.css')); ?>" rel="stylesheet">
+    <link href="<?php $this->h($this->baseUrl('/css/asterisk18_videocall.css')); ?>" rel="stylesheet">
+
+    <meta charset="utf-8" />
+</head>
+
+<body>
+    <br>
+    <center>
+        <H1>Asterisk 13 Audio Call</H1><br><br>
+        <div>
+            <table>
+                <tr>
+                    <td>SIP Account </td>
+                    <td><input id=phone name="Phone #" type=text value='100001' /></td>
+                    <td><button class=btn id=regbtn onclick="register();">Register</button></td>
+                    <!-- <td><button class=btn id=regbtn onclick="unregister();">unRegister</button></td> -->
+                </tr>
+                <tr>
+                    <td>Password</td>
+                    <td><input id=pass name="Password" type=text value='69129362' /></td>
+                </tr>
+                <tr>
+                    <td>-----------------------</td>
+                    <td></td>
+                    <td></td>
+                    <td>
+                        <p id="caller_name"></p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Extension to call</td>
+                    <td><input id=extension name=extension type=text value='' onkeyup = "PressKey()"/></td>
+                    <td>
+                        <button class=btn id=callbtn onclick="call()">Call</button>
+                    </td>
+                    <td>
+                        <button class=button id=answerbtn onclick="answer()">Answer</button>
+                        <button class=btn id=terminatebtn style="background: linear-gradient(to bottom, #ff0000 5%, #a83333 100%);" onclick="terminate()">End Call</i></button>
+                    </td>
+                </tr>
+                <tr>   
+                    <td>------------------------</td>
+                </tr>
+                <tr>
+                    <td>保留：</td>
+                    <td>
+                       <button class=btn id=holdbtn onclick="hold()">Hold</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>転送：</td>
+                    <td>
+                        <button class=btn id=transferbtn onclick="refer()">Transfer</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>ミュート：</td>
+                    <td>
+                       <button class=btn id=mutebtn onclick="mute()">Mute</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Send DTMF</td>
+                    <td>
+                       <button class=btn id=mutebtn onclick="SendAgent()">Agent DTMF</button>
+                    </td>
+                    <td>
+                       <button class=btn id=mutebtn onclick="SendPass()">Pass DTMF</button>
+                    </td>
+                </tr>
+
+            </table>
+        </div><br>
+        <div id=buttons>
+            <!-- <button class=btn id=regbtn onclick="register();">Register</button> -->
+            <!-- <button class=btn id=callbtn onclick="call();">Call</button> -->
+            <!-- <button class=btn id=answerbtn onclick="answer()">Answer</button> -->
+            <!-- <button class=btn id=holdbtn2 onclick="hold2()">Hold 2</button> -->
+            <button class=btn id=DTMFbtn onclick="sendDTMF()">sendDTMF</button>
+        </div>
+    
+    </center>
+    <br>
+
+    
+    <!-- asterisk18 -->
+    <center class="phone">
+        <H1>Asterisk 18 - Video Call</H1><br><br>
+        <div>
+            <table>
+                <tr>
+                    <td>SIP Account </td>
+                    <td><input id=phone18 name="Phone #" type=text value='testAccount3' /></td>
+                    <td><button class=btn id=regbtn18 onclick="register18();">Register</button></td>
+                    <!-- <td><button class=btn id=regbtn onclick="unregister();">unRegister</button></td> -->
+                </tr>
+                <tr>
+                    <td>Password</td>
+                    <td><input id=pass18 name="Password" type=text value='pass3' /></td>
+                </tr>
+                <tr>
+                    <td>---------------------------</td>
+                    <td></td>
+                    <td id="timer" >
+                        <label id="minutes" style="display: inline;">00</label>:<label id="seconds" style="display: inline;">00</label>
+                    </td>
+                    <td>
+                        <p id="caller_name18" ></p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Extension to call</td>
+                    <td><input id=extension18 name=extension type=text value='' /></td>
+                    <td>
+                        <button class=btn id=callbtn18 onClick="call_video18()">Call <i class="fas fa-video"></i></button>
+                    </td>
+                    <td>
+                        <button class="button" id=answerbtn18 style="display:none" onclick="answer18()">Answer <i class="fas fa-phone-square"></i> </button>
+                        <button class=btn id=terminatebtn18 style="background: linear-gradient(to bottom, #ff0000 5%, #a83333 100%);" onclick="terminate18()">End<i class="fas fa-phone-slash"></i></button>
+                    </td>
+                </tr>
+                
+            </table>
+        </div><br>
+            <div >
+                <button class=btn id=holdbtn18 onclick="hold18()">Hold</button>
+                <!-- <button class=btn id=holdbtn2 onclick="hold2()">Hold 2</button> -->
+                <button class=btn id=transferbtn18 onclick="refer18()">Transfer<i class="fas fa-exchange-alt"></i></button>
+                <!-- <button class=btn id=DTMFbtn onclick="sendDTMF()">sendDTMF</button> -->
+                <!-- <button class=btn id=onvideo onclick="on_video()">Video on</button> -->
+                <button class=btn id=mutebtn18 onclick="mute18()">Video OFF <i class="fas fa-video-slash"></i></button>
+                <button class=btn id=muteaudiobtn18 onclick="mute_audio18()">Voice mute <i class='fas fa-microphone-slash'></i></button>
+            </div>
+
+        <div id="videoCall">
+            
+            <video class="remote-stream" id="remoteView" autoplay > thier video</video>
+            <video class="local-stream"  id="selfView" autoplay  muted=true> your video</video>
+            <!-- <div class="controls">
+              <button class="call-end"><i class="material-icons md-48">call_end</i></button>
+            </div> -->
+          </div>
+
+    </center>
+
+    <script src='https://jssip.net/download/releases/jssip-3.7.1.min.js'>
+    </script>
+    <script src="<?php $this->h($this->baseUrl('/js/asterisk13.js')); ?>">
+    </script>
+    <!-- asterisk 18 -->
+    <script src="<?php $this->h($this->baseUrl('/js/asterisk18.js')); ?>">
+    </script>   
+    <script>
+        var telephonering = new Audio('<?php $this->h($this->baseUrl('/audio/telephonering.mp3')); ?>');
+        telephonering.loop = true;
+        var ringback = new Audio("<?php $this->h($this->baseUrl('/audio/ringback.mp3')); ?>");
+        ringback.loop = true;
+        var endcall = new Audio("<?php $this->h($this->baseUrl('/audio/endcall.mp3')); ?>");
+    </script>
+
+
+
+
+</body>
+
+</html>
